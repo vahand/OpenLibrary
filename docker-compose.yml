@@ -1,0 +1,37 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: library-postgres
+    restart: always
+    environment:
+      POSTGRES_DB: librarydb
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  backend:
+    build: ./library-backend
+    container_name: library-backend
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/librarydb
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_PASSWORD: admin
+    depends_on:
+      - postgres
+    ports:
+      - "8080:8080"
+
+  frontend:
+    build: ./library-frontend
+    container_name: library-frontend
+    depends_on:
+      - backend
+    ports:
+      - "3000:80"
+    restart: always
+
+volumes:
+  postgres_data:
