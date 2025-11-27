@@ -8,7 +8,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/books")
-@CrossOrigin(origins = "http://localhost:3000") // allow frontend dev server (Vite default)
 public class BookController {
     private final BookRepository repo;
     public BookController(BookRepository repo){ this.repo = repo; }

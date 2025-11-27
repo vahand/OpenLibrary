@@ -12,6 +12,21 @@ services:
     ports:
       - "5432:5432"
 
+  keycloak:
+    image: quay.io/keycloak/keycloak:latest
+    container_name: library-keycloak
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    command:
+      - start-dev
+    ports:
+      - "8081:8080"
+    volumes:
+      - ./keycloak/realms:/opt/keycloak/data/import
+    depends_on:
+      - postgres
+
   backend:
     build: ./library-backend
     container_name: library-backend
@@ -19,8 +34,12 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/librarydb
       SPRING_DATASOURCE_USERNAME: admin
       SPRING_DATASOURCE_PASSWORD: admin
+#      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI: http://keycloak:8080/realms/library
+#      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI: http://host.docker.internal:8081/realms/library
+      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI: http://localhost:8081/realms/library
     depends_on:
       - postgres
+      - keycloak
     ports:
       - "8080:8080"
 
