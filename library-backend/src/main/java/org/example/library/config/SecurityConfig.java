@@ -23,6 +23,7 @@ public class SecurityConfig {
                 .cors(cors -> {})  // Enable CORS
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/public/**").permitAll()
+                        .requestMatchers("/auth/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(oauth -> oauth.jwt());

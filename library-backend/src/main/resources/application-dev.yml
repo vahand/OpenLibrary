@@ -18,6 +18,11 @@ spring:
         jwt:
           issuer-uri: http://localhost:8081/realms/library
 
+keycloak:
+  url: http://localhost:8081
+  realm: library
+  client-id: library-backend
+  client-secret: eveVHDpDkycDuw7MLTwHNRuxBLUlM8u1
+
 server:
   port: 8080
-
