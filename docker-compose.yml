@@ -18,8 +18,12 @@ services:
     environment:
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_FEATURES: scripts
+      KC_SCRIPTS_UPLOAD_ENABLED: "true"
     command:
       - start-dev
+      - --import-realm
+      - --features=scripts
     ports:
       - "8081:8080"
     volumes:

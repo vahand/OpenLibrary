@@ -22,7 +22,7 @@ keycloak:
   url: http://keycloak:8080
   realm: library
   client-id: library-backend
-  client-secret: eveVHDpDkycDuw7MLTwHNRuxBLUlM8u1
+  client-secret: 5XtIZs9JzA6l0TlObqHjavpuSWbWCAvY
 
 server:
   port: 8080
