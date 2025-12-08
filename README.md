@@ -2,13 +2,16 @@
 OpenLibrary is a application for libraries administrators, integrating distributed systems.
 
 ## API Endpoints
-- `/api/books`: Manage book records
+#### Manage book records
 - `-X GET /api/books`: Retrieve a list of all books
 - `-X POST /api/books`: Add a new book
 - `-X GET /api/books/{id}`: Retrieve details of a specific book
+- `-X PUT /api/books/{id}`: Update details of a specific book
 - `-X DELETE /api/books/{id}`: Delete a specific book
 
-- `/api/rentings`: Manage book rentals
+#### Manage book rentals
+
+#### Authentication with Keycloak
 
 ### Curl commands to test the API
 - Get all books:
