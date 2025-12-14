@@ -53,3 +53,5 @@ OpenLibrary is a application for libraries administrators, integrating distribut
   ```
 
 Replace `YOUR_API_TOKEN` with a valid token obtained from Keycloak.
+
+

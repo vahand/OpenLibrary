@@ -1,5 +1,7 @@
 package org.example.library.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.nats.client.Connection;
 import org.example.library.model.Book;
 import org.example.library.model.Renting;
 import org.example.library.repo.BookRepository;
@@ -9,15 +11,20 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/rentings")
 public class RentingController {
     private final RentingRepository repo;
     private final BookRepository bookRepository;
-    public RentingController(RentingRepository repo, BookRepository bookRepository) {
+    private final Connection natsConnection;
+    private final ObjectMapper objectMapper = new ObjectMapper();
+
+    public RentingController(RentingRepository repo, BookRepository bookRepository, Connection natsConnection) {
         this.repo = repo;
         this.bookRepository = bookRepository;
+        this.natsConnection = natsConnection;
     }
 
     // Get all rentings
@@ -53,7 +60,24 @@ public class RentingController {
         r.setRentDate(DateTimeFormatter.ISO_DATE_TIME.format(LocalDateTime.now()));
         r.setReturnDate(DateTimeFormatter.ISO_DATE_TIME.format(LocalDateTime.now().plusDays(14)));
 
-        return repo.save(r);
+        Renting savedRenting = repo.save(r);
+
+        // Publish event to NATS
+        try {
+            var event = Map.of(
+                    "eventType", "BOOK_RENTED",
+                    "to", savedRenting.getRenterEmail(),
+                    "subject", "Book Rented: " + b.getTitle(),
+                    "body", "You have successfully rented the book '" + b.getTitle() + "'. Return by: "
+                            + savedRenting.getReturnDate());
+            String json = objectMapper.writeValueAsString(event);
+            natsConnection.publish("book.rented", json.getBytes());
+            System.out.println("Published event to book.rented: " + json);
+        } catch (Exception e) {
+            System.err.println("Failed to publish event: " + e.getMessage());
+        }
+
+        return savedRenting;
     }
 
     // Update an existing renting
@@ -82,5 +106,19 @@ public class RentingController {
         }
 
         repo.deleteById(id);
+
+        // Publish event to NATS
+        try {
+            var event = Map.of(
+                    "eventType", "BOOK_RETURNED",
+                    "to", r.getRenterEmail(),
+                    "subject", "Book Returned: " + (b != null ? b.getTitle() : "Unknown Book"),
+                    "body", "You have successfully returned the book. Thank you!");
+            String json = objectMapper.writeValueAsString(event);
+            natsConnection.publish("book.returned", json.getBytes());
+            System.out.println("Published event to book.returned: " + json);
+        } catch (Exception e) {
+            System.err.println("Failed to publish return event: " + e.getMessage());
+        }
     }
 }
