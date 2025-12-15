@@ -17,8 +17,37 @@ OpenLibrary is a application for libraries administrators, integrating distribut
 - `-X DELETE /api/rentings/{id}`: Return a rented book (delete Renting record. Set the book as available)
 
 #### Authentication with Keycloak
+- `-X POST /auth/register`: Register a new user
+- `-X POST /auth/login`: Login and obtain an access token
 
 ### Curl commands to test the API
+- Register a new user:
+    ```bash
+    curl -X POST http://localhost:8080/auth/register \
+    -H "Content-Type: application/json" \
+    -d "{
+      \"username\":\"vahan\",
+      \"password\":\"vahan\",
+      \"email\":\"vahan.ducher@hft-stuttgart.de\",
+      \"firstName\":\"Vahan\",
+      \"lastName\":\"Ducher\"
+    }"
+    ```
+- Login and obtain an access token:
+    ```bash
+    curl -X POST http://localhost:8080/auth/login \
+    -H "Content-Type: application/json" \
+    -d "{
+      \"username\":\"vahan\",
+      \"password\":\"vahan\"
+    }"
+    ```
+  The response will contain an access token in the following format:
+    ```json
+    {
+      "accessToken": "YOUR_API_TOKEN"
+    }
+    ```
 - Get all books:
   ```bash
   curl -X GET http://localhost:8080/api/books \
