@@ -155,6 +155,7 @@ curl -X DELETE http://localhost:8080/api/rentings/{id} \
 -H 'Authorization: Bearer YOUR_API_TOKEN'
 ```
 Output: returns 200/204 OK
+
 **Notification service - NATS-Verification:**
 
 BackendLog:
