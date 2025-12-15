@@ -102,3 +102,14 @@ Login will return a response containing the access token with the following form
 :bulb: Don't forget to replace `YOUR_API_TOKEN` with a valid token obtained from authentication step.
 
 ## Demonstration of services
+
+### Keycloak Authentication
+We can see on screenshots below that the user John Doe, with the "john.doe@hft-stuttgart.de" email address, is registered in Keycloak by making an API call to `/auth/register` endpoints.
+
+#### Curl command:
+<img width="655" height="147" alt="Screenshot 2025-12-15 at 11 30 45" src="https://github.com/user-attachments/assets/3b2b3f88-150a-462f-a450-9a41b8a343e5" />
+
+#### Keycloak pannel:
+<img width="899" height="538" alt="image" src="https://github.com/user-attachments/assets/24c8c6e2-7c4c-4d90-b74e-4a44201731be" />
+
+
