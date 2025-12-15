@@ -26,3 +26,6 @@ keycloak:
 
 server:
   port: 8080
+
+nats:
+  url: nats://nats:4222

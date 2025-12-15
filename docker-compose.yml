@@ -45,6 +45,19 @@ services:
     ports:
       - "8080:8080"
 
+  notification:
+    build: ./library-notification
+    container_name: library-notification
+    ports:
+      - "8082:8082"
+
+  nats:
+    image: nats:latest
+    container_name: library-nats
+    ports:
+      - "4222:4222" # Client-connections
+      - "8222:8222" # HTTP-monitoring
+
   frontend:
     build: ./library-frontend
     container_name: library-frontend

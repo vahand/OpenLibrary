@@ -1,0 +1,5 @@
+server:
+  port: 8082
+
+nats:
+  url: nats://nats:4222
