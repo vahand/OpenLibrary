@@ -661,18 +661,6 @@
       ]
     },
     {
-      "id": "test-client-id",
-      "clientId": "test-client",
-      "enabled": true,
-      "clientAuthenticatorType": "client-secret",
-      "secret": "secret123",
-      "directAccessGrantsEnabled": true,
-      "serviceAccountsEnabled": true,
-      "publicClient": false,
-      "protocol": "openid-connect",
-      "fullScopeAllowed": true
-    },
-    {
       "id": "12509178-86ee-40e0-994c-70296df882cf",
       "clientId": "broker",
       "name": "${client_broker}",
