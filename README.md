@@ -23,34 +23,49 @@ OpenLibrary is a application for libraries administrators, integrating distribut
 - `-X POST /auth/login`: Login and obtain an access token
 
 ## Run the project
+### Start the project
+To start the project, execute from root the following command to start Docker service:
+```bash
+docker compose up --build
+```
+Each service runs in a Docker container.
+
+### Get authenticated
+To run endpoints below and manage books/rentals, a access token is needed. It can be obtained with authentication endpoints.
+
+Start by registering a new user in Keycloak with the following command:
+```bash
+curl -X POST http://localhost:8080/auth/register \
+-H "Content-Type: application/json" \
+-d "{
+  \"username\":\"johndoe\",
+  \"password\":\"password\",
+  \"email\":\"john.doe@email.com\",
+  \"firstName\":\"John\",
+  \"lastName\":\"Doe\"
+}"
+```
+Then, login with the following command by using credentials precised above:
+```bash
+curl -X POST http://localhost:8080/auth/login \
+-H "Content-Type: application/json" \
+-d "{
+  \"username\":\"johndoe\",
+  \"password\":\"password\"
+}"
+```
+Login will return a response containing the access token with the following format:
+```json
+{
+    "access_token":"API_TOKEN",
+    "refresh_token":"REFRESH_TOKEN",
+    "expires_in":300,
+    "refresh_expires_in":1800,
+    "token_type":"Bearer"
+}
+```
+
 ### Curl commands to test the API
-- Register a new user:
-    ```bash
-    curl -X POST http://localhost:8080/auth/register \
-    -H "Content-Type: application/json" \
-    -d "{
-      \"username\":\"johndoe\",
-      \"password\":\"password\",
-      \"email\":\"john.doe@email.com\",
-      \"firstName\":\"John\",
-      \"lastName\":\"Doe\"
-    }"
-    ```
-- Login and obtain an access token:
-    ```bash
-    curl -X POST http://localhost:8080/auth/login \
-    -H "Content-Type: application/json" \
-    -d "{
-      \"username\":\"johndoe\",
-      \"password\":\"password\"
-    }"
-    ```
-  The response will contain an access token in the following format:
-    ```json
-    {
-      "accessToken": "YOUR_API_TOKEN"
-    }
-    ```
 - Get all books:
   ```bash
   curl -X GET http://localhost:8080/api/books \
