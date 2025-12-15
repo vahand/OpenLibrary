@@ -99,6 +99,6 @@ Login will return a response containing the access token with the following form
   -H 'Authorization: Bearer YOUR_API_TOKEN'
   ```
 
-Replace `YOUR_API_TOKEN` with a valid token obtained from Keycloak.
+:bulb: Don't forget to replace `YOUR_API_TOKEN` with a valid token obtained from authentication step.
 
 ## Demonstration of services
