@@ -1,5 +1,5 @@
 # OpenLibrary
-OpenLibrary is a application for libraries administrators, integrating distributed systems.
+OpenLibrary is a application for libraries administrators that handling book rentals, by integrating distributed systems.
 
 ## Architecture
 ### Schema
@@ -65,39 +65,135 @@ Login will return a response containing the access token with the following form
 }
 ```
 
-### Curl commands to test the API
-- Get all books:
-  ```bash
-  curl -X GET http://localhost:8080/api/books \
-  -H 'Content-Type: application/json' \
-  -H 'Authorization: Bearer YOUR_API_TOKEN'
-  ```
-- Get all rentings:
-  ```bash
-  curl -X GET http://localhost:8080/api/rentings \
-  -H 'Content-Type: application/json' \
-  -H 'Authorization: Bearer YOUR_API_TOKEN'
-  ```
-- Add a new book:
-  ```bash
-  curl -X POST http://localhost:8080/api/books \
-  -H 'Content-Type: application/json' \
-  -H 'Authorization: Bearer YOUR_API_TOKEN' \
-  -d '{"title":"Book Title","author":"Author Name","isbn":"1234567890"}'
-  ```
-- Rent a book:
-  ```bash
-  curl -X POST http://localhost:8080/api/rentings \
-  -H 'Content-Type: application/json' \
-  -H 'Authorization: Bearer YOUR_API_TOKEN' \
-  -d '{"bookId":1,"renterFirstName":"John", "renterLastName":"Doe", "renterEmail":"john.doe@email.com"}'
-  ```
-- Return a book:
-  ```bash
-  curl -X DELETE http://localhost:8080/api/rentings/{id} \
-  -H 'Content-Type: application/json' \
-  -H 'Authorization: Bearer YOUR_API_TOKEN'
-  ```
+### Manage books
+1. Books can be added to the Library reserve with the following command:
+```bash
+curl -X POST http://localhost:8080/api/books \
+-H 'Content-Type: application/json' \
+-H 'Authorization: Bearer YOUR_API_TOKEN' \
+-d '{"title":"Book Title","author":"Author Name","isbn":"1234567890"}'
+```
+Output:
+```bash
+{
+  "id":1,
+  "title":"Book Title",
+  "author":"Author Name",
+  "isbn":"1234567890",
+  "available":true
+}
+```
+
+2. Then, all books of the Library reserve can be retrieved with the following command:
+```bash
+curl -X GET http://localhost:8080/api/books \
+-H 'Content-Type: application/json' \
+-H 'Authorization: Bearer YOUR_API_TOKEN'
+```
+Output:
+```bash
+[
+  {
+    "id":1,
+    "title":"Book Title",
+    "author":"Author Name",
+    "isbn":1234567890,
+    "available":false
+  },
+  {
+    "id":2,
+    "title":"Star Wars IV",
+    "author":"Georges Lucas",
+    "isbn":12341234,
+    "available":true
+  },
+  ...
+]
+```
+
+### Manage rentals
+1. To rent a book from the reserve, run the following command:
+```bash
+curl -X POST http://localhost:8080/api/rentings \
+-H 'Content-Type: application/json' \
+-H 'Authorization: Bearer YOUR_API_TOKEN' \
+-d '{"bookId":1,"renterFirstName":"John", "renterLastName":"Doe", "renterEmail":"john.doe@email.com"}'
+```
+Output:
+```bash
+{
+  "id":3,
+  "bookId":2,
+  "renterFirstName":"John",
+  "renterLastName":"Doe",
+  "renterEmail":"john.doe@email.com",
+  "rentDate":"2025-12-15T14:04:27.292946845",
+  "returnDate":"2025-12-29T14:04:27.293147886"
+}
+```
+**Notification service - NATS-Verification:**
+
+BackendLog (library-backend):
+```bash
+Published event to book.rented: {"to":"vahan.ducher@random.com","body":"You have successfully rented the book 'B1.1'. Return by: 2025-12-28T19:04:05.619367335","subject":"Book Rented: B1.1","eventType":"BOOK_RENTED"}
+```
+NotificationLog (library-notification):
+```bash
+--------------------------------------------------
+RECEIVED EVENT FROM NATS
+Topic: book.rented
+Event Type: BOOK_RENTED
+To: vahan.ducher@random.com
+Subject: Book Rented: B1.1
+Body: You have successfully rented the book 'B1.1'. Return by: 2025-12-28T19:04:05.619367335
+--------------------------------------------------
+```
+2. Then to return a book back to the library reserve, run the following command:
+```bash
+curl -X DELETE http://localhost:8080/api/rentings/{id} \
+-H 'Content-Type: application/json' \
+-H 'Authorization: Bearer YOUR_API_TOKEN'
+```
+Output: returns 200/204 OK
+**Notification service - NATS-Verification:**
+
+BackendLog:
+```bash
+Published event to book.returned: {"to":"vahan.ducher@random.com","body":"You have successfully returned the book. Thank you!","subject":"Book Returned: Leben in Deutschland","eventType":"BOOK_RETURNED"}
+```
+NotificationLog:
+```bash
+--------------------------------------------------
+RECEIVED EVENT FROM NATS
+Topic: book.returned
+Event Type: BOOK_RETURNED
+To: vahan.ducher@random.com
+Subject: Book Returned: Leben in Deutschland
+Body: You have successfully returned the book. Thank you!
+--------------------------------------------------
+```
+
+3. To get the list of rentals, run the following command:
+```bash
+curl -X GET http://localhost:8080/api/rentings \
+-H 'Content-Type: application/json' \
+-H 'Authorization: Bearer YOUR_API_TOKEN'
+```
+Output:
+```bash
+[
+  {
+    "id":1,
+    "bookId":1,
+    "renterFirstName":"John",
+    "renterLastName":"Doe",
+    "renterEmail":"john.doe@email.com",
+    "rentDate":"2025-12-15T14:04:27.292946845",
+    "returnDate":"2025-12-29T14:04:27.293147886"
+  },
+  ...
+]
+```
 
 :bulb: Don't forget to replace `YOUR_API_TOKEN` with a valid token obtained from authentication step.
 
