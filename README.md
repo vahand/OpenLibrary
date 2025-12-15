@@ -66,7 +66,8 @@ Login will return a response containing the access token with the following form
 ```
 
 ### Manage books
-1. Books can be added to the Library reserve with the following command:
+#### 1. Add a book
+Books can be added to the Library reserve with the following command:
 ```bash
 curl -X POST http://localhost:8080/api/books \
 -H 'Content-Type: application/json' \
@@ -83,8 +84,8 @@ Output:
   "available":true
 }
 ```
-
-2. Then, all books of the Library reserve can be retrieved with the following command:
+#### 2. Get all books
+Then, all books of the Library reserve can be retrieved with the following command:
 ```bash
 curl -X GET http://localhost:8080/api/books \
 -H 'Content-Type: application/json' \
@@ -112,7 +113,8 @@ Output:
 ```
 
 ### Manage rentals
-1. To rent a book from the reserve, run the following command:
+#### 1. Rent a book
+To rent a book from the reserve, run the following command:
 ```bash
 curl -X POST http://localhost:8080/api/rentings \
 -H 'Content-Type: application/json' \
@@ -148,7 +150,8 @@ Subject: Book Rented: Book Title
 Body: You have successfully rented the book 'Book Title'. Return by: 2025-12-28T19:04:05.619367335
 --------------------------------------------------
 ```
-2. To get the list of rentals, run the following command:
+#### 2. Get current rentals
+To get the list of rentals, run the following command:
 ```bash
 curl -X GET http://localhost:8080/api/rentings \
 -H 'Content-Type: application/json' \
@@ -169,7 +172,8 @@ Output:
   ...
 ]
 ```
-3. Then to return a book back to the library reserve, run the following command:
+#### 3. Return a book
+Then to return a book back to the library reserve, run the following command:
 ```bash
 curl -X DELETE http://localhost:8080/api/rentings/1 \
 -H 'Content-Type: application/json' \
