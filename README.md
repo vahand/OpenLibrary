@@ -4,6 +4,11 @@ OpenLibrary is a application for libraries administrators that handling book ren
 ## Architecture
 ### Schema
 ### Explanations
+OpenLibrary project is composed of several services:
+- **Backend service**, running in a Docker container using Java Sring Boot. It provides an API Rest communication protocol.
+- **Keycloak service**, running in a Docker container. It enables to authenticate user and secure endpoints for data retrieving.
+- **Postgres database service**, running in a Docker container, used for data storage.
+- **NATS** and **Notifications** services, both running in Docker containers. Used for notifications publishing when a book is rented / returned.
 
 ## API Endpoints
 #### Manage book records
