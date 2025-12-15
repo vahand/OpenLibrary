@@ -122,8 +122,8 @@ curl -X POST http://localhost:8080/api/rentings \
 Output:
 ```bash
 {
-  "id":3,
-  "bookId":2,
+  "id":1,
+  "bookId":1,
   "renterFirstName":"John",
   "renterLastName":"Doe",
   "renterEmail":"john.doe@email.com",
@@ -148,9 +148,30 @@ Subject: Book Rented: Book Title
 Body: You have successfully rented the book 'Book Title'. Return by: 2025-12-28T19:04:05.619367335
 --------------------------------------------------
 ```
-2. Then to return a book back to the library reserve, run the following command:
+2. To get the list of rentals, run the following command:
 ```bash
-curl -X DELETE http://localhost:8080/api/rentings/{id} \
+curl -X GET http://localhost:8080/api/rentings \
+-H 'Content-Type: application/json' \
+-H 'Authorization: Bearer YOUR_API_TOKEN'
+```
+Output:
+```bash
+[
+  {
+    "id":1,
+    "bookId":1,
+    "renterFirstName":"John",
+    "renterLastName":"Doe",
+    "renterEmail":"john.doe@email.com",
+    "rentDate":"2025-12-15T14:04:27.292946845",
+    "returnDate":"2025-12-29T14:04:27.293147886"
+  },
+  ...
+]
+```
+3. Then to return a book back to the library reserve, run the following command:
+```bash
+curl -X DELETE http://localhost:8080/api/rentings/1 \
 -H 'Content-Type: application/json' \
 -H 'Authorization: Bearer YOUR_API_TOKEN'
 ```
@@ -172,28 +193,6 @@ To: john.doe@email.com
 Subject: Book Returned: Book Title
 Body: You have successfully returned the book. Thank you!
 --------------------------------------------------
-```
-
-3. To get the list of rentals, run the following command:
-```bash
-curl -X GET http://localhost:8080/api/rentings \
--H 'Content-Type: application/json' \
--H 'Authorization: Bearer YOUR_API_TOKEN'
-```
-Output:
-```bash
-[
-  {
-    "id":1,
-    "bookId":1,
-    "renterFirstName":"John",
-    "renterLastName":"Doe",
-    "renterEmail":"john.doe@email.com",
-    "rentDate":"2025-12-15T14:04:27.292946845",
-    "returnDate":"2025-12-29T14:04:27.293147886"
-  },
-  ...
-]
 ```
 
 :bulb: Don't forget to replace `YOUR_API_TOKEN` with a valid token obtained from authentication step.
