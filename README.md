@@ -198,6 +198,12 @@ Output:
 
 :bulb: Don't forget to replace `YOUR_API_TOKEN` with a valid token obtained from authentication step.
 
+### Check records in Database
+To have a look on the content stored in database, run the following command:
+```bash
+docker exec -i library-postgres psql -U admin -d librarydb -c "SELECT * FROM book;" -c "SELECT * FROM renting;"
+```
+
 ## Demonstration of services
 
 ### Keycloak Authentication
