@@ -135,7 +135,7 @@ Output:
 
 BackendLog (library-backend):
 ```bash
-Published event to book.rented: {"to":"vahan.ducher@random.com","body":"You have successfully rented the book 'B1.1'. Return by: 2025-12-28T19:04:05.619367335","subject":"Book Rented: B1.1","eventType":"BOOK_RENTED"}
+Published event to book.rented: {"to":"john.doe@email.com","body":"You have successfully rented the book 'Book Title'. Return by: 2025-12-28T19:04:05.619367335","subject":"Book Rented: Book Title","eventType":"BOOK_RENTED"}
 ```
 NotificationLog (library-notification):
 ```bash
@@ -143,9 +143,9 @@ NotificationLog (library-notification):
 RECEIVED EVENT FROM NATS
 Topic: book.rented
 Event Type: BOOK_RENTED
-To: vahan.ducher@random.com
-Subject: Book Rented: B1.1
-Body: You have successfully rented the book 'B1.1'. Return by: 2025-12-28T19:04:05.619367335
+To: john.doe@email.com
+Subject: Book Rented: Book Title
+Body: You have successfully rented the book 'Book Title'. Return by: 2025-12-28T19:04:05.619367335
 --------------------------------------------------
 ```
 2. Then to return a book back to the library reserve, run the following command:
@@ -159,7 +159,7 @@ Output: returns 200/204 OK
 
 BackendLog:
 ```bash
-Published event to book.returned: {"to":"vahan.ducher@random.com","body":"You have successfully returned the book. Thank you!","subject":"Book Returned: Leben in Deutschland","eventType":"BOOK_RETURNED"}
+Published event to book.returned: {"to":"john.doe@email.com","body":"You have successfully returned the book. Thank you!","subject":"Book Returned: Book Title","eventType":"BOOK_RETURNED"}
 ```
 NotificationLog:
 ```bash
@@ -167,8 +167,8 @@ NotificationLog:
 RECEIVED EVENT FROM NATS
 Topic: book.returned
 Event Type: BOOK_RETURNED
-To: vahan.ducher@random.com
-Subject: Book Returned: Leben in Deutschland
+To: john.doe@email.com
+Subject: Book Returned: Book Title
 Body: You have successfully returned the book. Thank you!
 --------------------------------------------------
 ```
