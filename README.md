@@ -3,6 +3,8 @@ OpenLibrary is a application for libraries administrators that handling book ren
 
 ## Architecture
 ### Schema
+<img width="1468" height="806" alt="image" src="https://github.com/user-attachments/assets/12fb3184-865d-456f-9d49-7ad10970b277" />
+
 ### Explanations
 OpenLibrary project is composed of several services:
 - **Backend service**, running in a Docker container using Java Sring Boot. It provides an API Rest communication protocol.
