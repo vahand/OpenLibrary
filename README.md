@@ -1,6 +1,10 @@
 # OpenLibrary
 OpenLibrary is a application for libraries administrators, integrating distributed systems.
 
+## Architecture
+### Schema
+### Explanations
+
 ## API Endpoints
 #### Manage book records
 - `-X GET /api/books`: Retrieve a list of all books
@@ -8,29 +12,28 @@ OpenLibrary is a application for libraries administrators, integrating distribut
 - `-X GET /api/books/{id}`: Retrieve details of a specific book
 - `-X PUT /api/books/{id}`: Update details of a specific book
 - `-X DELETE /api/books/{id}`: Delete a specific book
-
 #### Manage book rentals
 - `-X GET /api/rentings`: Retrieve a list of all rentings
 - `-X POST /api/rentings`: Rent a book (add new Renting record. Set the book as not available)
 - `-X GET /api/rentings/{id}`: Retrieve details of a specific renting
 - `-X PUT /api/rentings/{id}`: Update details of a specific renting
 - `-X DELETE /api/rentings/{id}`: Return a rented book (delete Renting record. Set the book as available)
-
 #### Authentication with Keycloak
 - `-X POST /auth/register`: Register a new user
 - `-X POST /auth/login`: Login and obtain an access token
 
+## Run the project
 ### Curl commands to test the API
 - Register a new user:
     ```bash
     curl -X POST http://localhost:8080/auth/register \
     -H "Content-Type: application/json" \
     -d "{
-      \"username\":\"vahan\",
-      \"password\":\"vahan\",
-      \"email\":\"vahan.ducher@hft-stuttgart.de\",
-      \"firstName\":\"Vahan\",
-      \"lastName\":\"Ducher\"
+      \"username\":\"johndoe\",
+      \"password\":\"password\",
+      \"email\":\"john.doe@email.com\",
+      \"firstName\":\"John\",
+      \"lastName\":\"Doe\"
     }"
     ```
 - Login and obtain an access token:
@@ -38,8 +41,8 @@ OpenLibrary is a application for libraries administrators, integrating distribut
     curl -X POST http://localhost:8080/auth/login \
     -H "Content-Type: application/json" \
     -d "{
-      \"username\":\"vahan\",
-      \"password\":\"vahan\"
+      \"username\":\"johndoe\",
+      \"password\":\"password\"
     }"
     ```
   The response will contain an access token in the following format:
@@ -72,7 +75,7 @@ OpenLibrary is a application for libraries administrators, integrating distribut
   curl -X POST http://localhost:8080/api/rentings \
   -H 'Content-Type: application/json' \
   -H 'Authorization: Bearer YOUR_API_TOKEN' \
-  -d '{"bookId":1,"renterFirstName":"Vahan", "renterLastName":"Ducher", "renterEmail":"vahan.ducher@random.com"}'
+  -d '{"bookId":1,"renterFirstName":"John", "renterLastName":"Doe", "renterEmail":"john.doe@email.com"}'
   ```
 - Return a book:
   ```bash
@@ -83,4 +86,4 @@ OpenLibrary is a application for libraries administrators, integrating distribut
 
 Replace `YOUR_API_TOKEN` with a valid token obtained from Keycloak.
 
-
+## Demonstration of services
