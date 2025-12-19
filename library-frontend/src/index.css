@@ -54,6 +54,16 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+input, button {
+    display: block;
+    width: 100%;
+    margin: 8px 0;
+}
+
+.error {
+    color: red;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
